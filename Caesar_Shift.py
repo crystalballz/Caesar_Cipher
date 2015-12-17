@@ -15,7 +15,8 @@ def caesar(plaintext,shift):
 
     return ciphertext
 
-plaintext="map"
+plaintext=raw_input("What text file do we want to encrypt?")
+shift=raw_input("How many characters do you want to shift?")
 print "Plaintext:", plaintext
-print "Cipertext:",caesar(plaintext,2)
+print "Cipertext:",caesar(plaintext,shift)
 

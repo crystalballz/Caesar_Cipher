@@ -64,7 +64,7 @@ class CAESAR:
 			encodedText+=chr(c)
 		self.writeFile(encodedText,"encode")
      
-
+	#THIS FUNCTION USES BRUTE FORCE TO DECODE OPENED FILE
 	def bruteFile(self,message,brute):
 		bruteText=""
 		for i in range(1,95,1):
@@ -76,7 +76,7 @@ class CAESAR:
 			bruteText+="\n"
 		self.writeFile(bruteText,"brute")
 
-
+	#THIS FUNCTION USES KNOWN KEY TO DECODE OPENED FILE
 	def decodeFile(self,message,shift):		
 		decodedText=""
 		for l in message:

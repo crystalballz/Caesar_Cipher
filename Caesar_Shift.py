@@ -8,15 +8,15 @@ def caesar(plaintext,shift):
         dic[alphabet[i]]=alphabet[(i+shift)%len(alphabet)]
 
     ciphertext=""
-    for l in plaintext.lower():
+    for l in plaintext.read.lower():
         if l in dic:
             l=dic[l]
         ciphertext+=l
 
     return ciphertext
 
-plaintext=raw_input("What text file do we want to encrypt?")
+plaintext=open(raw_input("What text file do we want to encrypt?"))
 shift=int(raw_input("How many characters do you want to shift?"))
-print "Plaintext:", plaintext
-print "Cipertext:",caesar(plaintext,shift)
+print "Plaintext:", plaintext.read
+print "Cipertext:",caesar(plaintext.read,shift)
 

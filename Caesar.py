@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
-#THIS PYTHON SCRIPT PERFORMS A CAESAR SHIFT TO ENCODE OR DECODE AN INPUT TEXTFILE
+#THIS PYTHON SCRIPT PERFORMS A CAESAR SHIFT TO ENCODE AN INPUT TEXTFILE
 #AUTHOR: CRISTOBAL MITCHELL
-#DATE MODIFIED: 11/1/2015
-#VERSION 0.0.1
+#DATE MODIFIED: 1/16/2016
+#VERSION 0.0.2
 
 
 #TODO
@@ -15,7 +15,6 @@ debug = False
 
 import sys
 import os
-import argparse
 
 if debug:
 	print "All modules have been imported"
@@ -23,82 +22,84 @@ if debug:
 
 class CAESAR:
 
-	#CLASS ATTRIBUTES
-
-
-	#MEMBER FUNCTIONS BELOW
-
 	def __init__(self):
 
 		print("")
 		print("Starting CAESAR CIPHER...")
 		print("")
+
+		self.encryptedFilePath = ""
+	
+	#THIS FUNCTION DETERMINES WHAT FILE TO OPEN AND ENCODE
+	def openFile(self):
+		mode = raw_input('Encode or Decode?')
 		
-		
+		if mode == 'encode':
+			fileOpen = open(raw_input('What input file do you want to use?'),'rU')
+			message = fileOpen.read()
+			shift = int(raw_input('How many charaters do you want to shift?'))
+			self.encodeFile(message,shift)
+		elif mode == 'decode':
+			fileOpen = open(raw_input('What input file do you want to use?'),'rU')
+			message = fileOpen.read()
+			shift = int(raw_input('What is the key?'))
+			self.decodeFile(message,shift)
+		elif mode == 'brute':
+			fileOpen = open(raw_input('What input file do you want to use?'),'rU')
+			message = fileOpen.read()
+			self.bruteFile(message,mode)
+		elif mode == 'exit':
+			exit
+		else:
+			print "You did not make a valid selection."
+			self.openFile()
+	
 	#THIS FUNCTION ENCODES OPENED FILE
-	def encodeFile(self):
-		f = open(raw_input("What file do you want to encode?"),"rU")
-		shift = int(raw_input("How many charaters do you want to shift?"))
+	def encodeFile(self,message,shift):		
 		encodedText=""
-		#for i in range(0,len(alphabet)):
-			#dic[alphabet[i]]=alphabet[(i+shift)%len(alphabet)]
-		
-		for each in f.readlines():
-			c = (ord(each)+shift) % 126
+		for l in message:
+			c = (ord(l)+shift) % 126
 			if c < 32:
 				c+=31
 			encodedText+=chr(c)
-			return writeEncodedFile(encodedText)
-			f.close()
-        	
-		if debug: 
-			print "The encoded text is" 
-			print encodedText
+		self.writeFile(encodedText,"encode")
+     
 
-	#THIS FUNCTION DECODES OPENED FILE
-	def decodeFile(self,f,shift):
-		alphabet=["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
-		dic={}
+	def bruteFile(self,message,brute):
+		bruteText=""
+		for i in range(1,95,1):
+			for l in message:
+				c = (ord(l)-i) % 126
+				if c < 32:
+					c+=95
+				bruteText+=chr(c)
+			bruteText+="\n"
+		self.writeFile(bruteText,"brute")
+
+
+	def decodeFile(self,message,shift):		
 		decodedText=""
-		for i in range(0,len(alphabet)):
-			dic[alphabet[i]]=alphabet[(i+shift)%len(alphabet)]
-		
-		for l in f.lower():
-			if l in dic:
-				l=dic[l]
-				decodedText+=l
-		return writeEncodedFile(decodedText)
+		for l in message:
+			c = (ord(l)-shift) % 126
+			if c < 32:
+				c+=95
+			decodedText+=chr(c)
+		self.writeFile(decodedText,"decode")
         	
-		
 	#THIS FUNCTION WRITES ENCODED FILE TO DESKTOP
-	def writeEncodedFile(self,encodedText):
+	def writeFile(self,text,mode):
 		self.encryptedLocation = os.path.join(os.path.expanduser('~'), 'Desktop')
-		self.encryptedFilePath = os.path.join(self.encryptedLocation,"Ecrypted.txt")
-		self.encryptedFile = open (self.encryptedFilePath, "w")
-		self.encryptedFile.write(encodedText)
+		self.encryptedFilePath = os.path.join(self.encryptedLocation, mode + ".txt")
+		self.encryptedFile = open(self.encryptedFilePath, "w")
+		self.encryptedFile.write(text)
 		self.encryptedFile.close()
 		if debug: 
 			print ""
 
 
 if __name__ == "__main__":
-	parser = argparse.ArgumentParser(description="""Encrypt or Decrypt text file. Encoded or decoded text are saved to the desktop. """)
-	
-	parser.add_argument('--encode','-e', action="store_true", help='Encodes plain text file.')
-	parser.add_argument('--decode','-d', action="store_true", help='Decodes plain text file.')
-	
-	args = parser.parse_args()
-
-	if args.encode or args.decode:
-		
-		c = CAESAR()
-		if args.encode:
-			c.encodeFile()
-
-		elif args.decode:
-			c.decodeFile()
-	else:
-		print "You must do either --encode or -e or --decode or -d. See -h for help."
+	c = CAESAR()
+	c.openFile()
 
 
 	

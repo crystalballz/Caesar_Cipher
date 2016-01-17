@@ -15,6 +15,7 @@ debug = False
 
 import sys
 import os
+import argparse
 
 if debug:
 	print "All modules have been imported"
@@ -73,7 +74,7 @@ class CAESAR:
 				if c < 32:
 					c+=95
 				bruteText+=chr(c)
-			bruteText+="\n"
+			bruteText+="\n\n"
 		self.writeFile(bruteText,"brute")
 
 	#THIS FUNCTION USES KNOWN KEY TO DECODE OPENED FILE
@@ -100,7 +101,30 @@ class CAESAR:
 if __name__ == "__main__":
 	c = CAESAR()
 	c.openFile()
+	
+	#PARSE ARGUMENTS TO EXECUTE VIA CLI
+	# parser = argparse.ArgumentParser(description='Encode or decode text files via the command line.')
+	# parser.add_argument('type', help='use encode, decode, or brute.')
+	# parser.add_argument('')
 
+	# args = parser.parse_args()
+
+	# if args.type == 'encode':
+	# 	fileOpen = open(raw_input('What input file do you want to use?'),'rU')
+	# 	message = fileOpen.read()
+	# 	shift = int(raw_input('How many charaters do you want to shift?'))
+	# 	c.encodeFile(message,shift)	
+	# elif args.type == 'decode':
+	# 	fileOpen = open(raw_input('What input file do you want to use?'),'rU')
+	# 	message = fileOpen.read()
+	# 	shift = int(raw_input('What is the key?'))
+	# 	c.decodeFile(message,shift)	
+	# elif args.type == 'brute':
+	# 	fileOpen = open(raw_input('What input file do you want to use?'),'rU')
+	# 	message = fileOpen.read()
+	# 	c.bruteFile(message,'brute')	
+	# elif args.type == '':
+	# 	c.openFile()	
 
 	
 

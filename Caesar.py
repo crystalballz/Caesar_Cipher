@@ -7,9 +7,11 @@
 
 
 #TODO
+"""Fix argparse"""
+"""Add additional debug checks"""
+
 
 #DEBUG FLAG
-
 debug = False
 
 
@@ -95,7 +97,7 @@ class CAESAR:
 		self.encryptedFile.write(text)
 		self.encryptedFile.close()
 		if debug: 
-			print ""
+			print "%s file written to desktop" % mode
 
 
 if __name__ == "__main__":
@@ -125,10 +127,3 @@ if __name__ == "__main__":
 	# 	c.bruteFile(message,'brute')	
 	# elif args.type == '':
 	# 	c.openFile()	
-
-	
-
-
-
-
-
